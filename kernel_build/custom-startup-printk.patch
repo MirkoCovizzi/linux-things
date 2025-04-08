@@ -1,0 +1,13 @@
+diff --git a/init/main.c b/init/main.c
+index 7f0a2a3db..26dc2fad5 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -898,6 +898,8 @@ void start_kernel(void)
+ 	char *command_line;
+ 	char *after_dashes;
+ 
++	printk(KERN_INFO "Boot Debug: Hi from Mirko! Kernel has entered start_kernel()\n");
++
+ 	set_task_stack_end_magic(&init_task);
+ 	smp_setup_processor_id();
+ 	debug_objects_early_init();

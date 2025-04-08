@@ -1,0 +1,12 @@
+#!/bin/sh
+
+mount -t proc none /proc
+mount -t sysfs none /sys
+
+echo "===== Hello from Mirko's /init =====" > /dev/console
+
+uname -a
+echo "PATH=$PATH"
+
+exec /bin/busybox sh
+
