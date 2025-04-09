@@ -1,3 +1,4 @@
 .vscode
+kernel_build/linux
 initramfs/busybox
 initramfs/rootfs/bin
