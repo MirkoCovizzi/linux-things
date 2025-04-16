@@ -16,7 +16,7 @@
 * Make it executable
 * Create the filesystem: `mkdir -p bin sbin etc proc sys usr/bin usr/sbin dev`
 * Copy busybox: `cd ..; cp busybox/busybox rootfs/bin/busybox`
-* Important! Link busybox: `cd rootfs/bin; ln -s busybox sh; ln -s busybox mount; ln -s busybox uname; ln -s busybox ls; ln -s busybox ps; ln -s busybox cat`
+* Important! Link busybox: `cd rootfs/bin; ln -s busybox sh;`
 * Create `init`
 * Package the initramfs:
     * `cd rootfs; find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../initramfs.cpio.gz`
@@ -28,4 +28,4 @@
         ls -lh
         ```
 * Start qemu with the initramfs:
-    * `qemu-system-aarch64 -M virt -cpu cortex-a57 -nographic -kernel ../kernel_build/linux/arch/arm64/boot/Image -initrd initramfs.cpio.gz -append "console=ttyAMA0 init=/init" -m 1024`
+    * `qemu-system-aarch64 -M virt -cpu cortex-a57 -nographic -kernel ../kernel_build/linux/arch/arm64/boot/Image -initrd initramfs.cpio.gz -append "console=ttyAMA0 init=/init" -m 1024 -bios ../bootloader/u-boot/u-boot.bin`
