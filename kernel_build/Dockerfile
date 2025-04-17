@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     gcc-aarch64-linux-gnu make \
     qemu-system-arm qemu-system-aarch64 \
     vim curl cpio device-tree-compiler wget \
-    libgnutls28-dev
+    libgnutls28-dev u-boot-tools
 
 WORKDIR /workspace
 

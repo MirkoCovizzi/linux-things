@@ -29,3 +29,31 @@
         ```
 * Start qemu with the initramfs:
     * `qemu-system-aarch64 -M virt -cpu cortex-a57 -nographic -kernel ../kernel_build/linux/arch/arm64/boot/Image -initrd initramfs.cpio.gz -append "console=ttyAMA0 init=/init" -m 1024 -bios ../bootloader/u-boot/u-boot.bin`
+
+* With U-Boot, convert initramfs to uImage:
+    ```
+    mkimage -A arm64 -O linux -T ramdisk -C gzip -d initramfs.cpio.gz initramfs.uImage
+    ```
+
+* Create ext4 (in host terminal):
+    ```bash
+    dd if=/dev/zero of=rootfs.ext4 bs=1M count=64
+    mkfs.ext4 rootfs.ext4
+
+    mkdir -p mnt
+    sudo mount rootfs.ext4 mnt
+
+    sudo cp ../kernel_build/linux/arch/arm64/boot/Image initramfs.uImage ../device_tree/qemu-default.dtb mnt/
+
+    sudo umount mnt
+    ```
+
+* Run QEMU with U-Boot and the virtual disk we just created:
+    ```
+    qemu-system-aarch64 \
+    -M virt -cpu cortex-a57 -nographic \
+    -m 1024 \
+    -bios ../bootloader/u-boot/u-boot.bin \
+    -drive if=none,file=rootfs.ext4,format=raw,id=disk \
+    -device virtio-blk-device,drive=disk
+    ```
